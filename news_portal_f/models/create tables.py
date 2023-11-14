@@ -17,6 +17,6 @@ class Authors(models.Model):
 
 
 class Articles(models.Model):
-    article_text = models.TextField
+    article_text = models.TextField(null=False)
     author = models.ForeignKey(Authors, on_delete=models.CASCADE)
     publ_date = models.DateField()
