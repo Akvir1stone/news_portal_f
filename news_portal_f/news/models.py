@@ -1,10 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class Authors(models.Model):
-    # TODO one to one User
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
 
     def update_rating(self):
@@ -16,7 +17,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    # TODO one to many Author
+    author = models.ForeignKey(Authors, on_delete=models.CASCADE)
     articleORnews = models.BooleanField()  # article true / news false # TODO try do without bool, but instead with char field
     date_time = models.DateTimeField(auto_now_add=True)
     m_to_m_cat = models.ManyToManyField(Category, through="PostCategory")
@@ -25,13 +26,13 @@ class Post(models.Model):
     rating = models.IntegerField()
 
     def like(self):
-        pass
+        self.rating += 1
 
     def dislike(self):
-        pass
+        self.rating -= 1
 
     def preview(self):
-        pass
+        return self.text[:124:] + '...'
 
 
 class PostCategory(models.Model):
@@ -41,14 +42,13 @@ class PostCategory(models.Model):
 
 class Comment(models.Model):
     at_post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    # TODO one to many user
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     c_text = models.TextField()
     date_time = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()
 
     def like(self):
-        pass
+        self.rating += 1
 
     def dislike(self):
-        pass
-
+        self.rating -= 1
