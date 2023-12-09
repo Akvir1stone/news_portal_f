@@ -9,7 +9,20 @@ class Authors(models.Model):
     rating = models.IntegerField()
 
     def update_rating(self):
-        pass
+        posts_rating_sum = 0
+        comments_rating_sum = 0
+        comments_on_posts_rating_sum = 0
+        posts_rating = Post.objects.filter(author=self).values('rating')
+        posts = Post.objects.filter(author=self)
+        for i in posts_rating.values():
+            posts_rating_sum += i
+        comments_rating = Comment.objects.filter(author=self).values('rating')
+        for i in comments_rating.values():
+            comments_rating_sum += i
+        comments_on_posts = Comment.objects.filter(at_post=posts).values('rating')
+        for i in comments_on_posts.values():
+            comments_on_posts_rating_sum += i
+        self.rating = posts_rating_sum*3 + comments_rating_sum + comments_on_posts_rating_sum
 
 
 class Category(models.Model):
