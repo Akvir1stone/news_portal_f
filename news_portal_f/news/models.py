@@ -23,6 +23,7 @@ class Authors(models.Model):
         for i in comments_on_posts.values():
             comments_on_posts_rating_sum += i
         self.rating = posts_rating_sum*3 + comments_rating_sum + comments_on_posts_rating_sum
+        self.save()
 
 
 class Category(models.Model):
@@ -31,18 +32,20 @@ class Category(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(Authors, on_delete=models.CASCADE)
-    articleORnews = models.BooleanField()  # article true / news false # TODO try do without bool, but instead with char field
+    articleORnews = models.BooleanField()  # article true / news false
     date_time = models.DateTimeField(auto_now_add=True)
     m_to_m_cat = models.ManyToManyField(Category, through="PostCategory")
-    name = models.CharField()
+    name = models.CharField(max_length=255)
     text = models.TextField()
     rating = models.IntegerField()
 
     def like(self):
         self.rating += 1
+        self.save()
 
     def dislike(self):
         self.rating -= 1
+        self.save()
 
     def preview(self):
         return self.text[:124:] + '...'
@@ -62,6 +65,8 @@ class Comment(models.Model):
 
     def like(self):
         self.rating += 1
+        self.save()
 
     def dislike(self):
         self.rating -= 1
+        self.save()
