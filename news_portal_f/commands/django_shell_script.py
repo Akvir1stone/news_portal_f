@@ -55,3 +55,20 @@ com1.like()
 com2.like()
 com3.like()
 com4.like()
+
+author1.update_rating()
+author2.update_rating()
+
+best = [Authors.objects.all().order_by('-rating').values('user__username')[0].get('user__username'),
+        Authors.objects.all().order_by('-rating').values('rating')[0].get('rating')]
+print(f'Best user is: {best[0]}, with rating: {best[1]}')
+
+post1.text = 'ajhdgfkjsahfkahglkjdahglkajgkajdlfdshjfljshdlfkahsdjfhakgakhgfkasdhgfkajdshgfkjdshgfksajhgfkjhsgdfkjhagdsfkjhgdfkjhagdfkjahgdfkahdjgfkdsajhgfkdsajh'
+post1.name = 'name of post1'
+
+best_com = [Post.objects.all().order_by('-rating').values('author__user__username')[0].get('author__user__username'),
+            str(Post.objects.all().order_by('-rating').values('date_time')[0].get('date_time').date()),
+            Post.objects.all().order_by('-rating').values('rating')[0].get('rating'),
+            Post.objects.all().order_by('-rating').values('name')[0].get('name')]
+print(f'Best comment author: {best_com[0]}, date: {best_com[1]}, rating: {best_com[2]}, name: {best_com[3]}, there is preview:')
+print(Post.objects.all().order_by('-rating')[0].preview())

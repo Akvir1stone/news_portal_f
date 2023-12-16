@@ -14,14 +14,18 @@ class Authors(models.Model):
         comments_on_posts_rating_sum = 0
         posts_rating = Post.objects.filter(author=self).values('rating')
         posts = Post.objects.filter(author=self)
-        for i in posts_rating.values():
-            posts_rating_sum += i
-        comments_rating = Comment.objects.filter(author=self).values('rating')
-        for i in comments_rating.values():
-            comments_rating_sum += i
-        comments_on_posts = Comment.objects.filter(at_post=posts).values('rating')
-        for i in comments_on_posts.values():
-            comments_on_posts_rating_sum += i
+        for i in posts_rating:
+            for j in i.values():
+                posts_rating_sum += j
+        comments_rating = Comment.objects.filter(user=self.user).values('rating')
+        for i in comments_rating:
+            for j in i.values():
+                comments_rating_sum += j
+        for z in posts:
+            comments_on_posts = Comment.objects.filter(at_post=z).values('rating')
+            for i in comments_on_posts:
+                for j in i.values():
+                    comments_on_posts_rating_sum += j
         self.rating = posts_rating_sum*3 + comments_rating_sum + comments_on_posts_rating_sum
         self.save()
 
