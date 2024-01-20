@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from news import models
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('news/', include('news_portal_f.news'))  # ??????
+    # path('/', include('django.contrib.flatpages.urls')),
+    # path('news/', include('news'))
 ]
