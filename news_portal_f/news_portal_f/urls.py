@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from news import models
+# from news import models
 
 urlpatterns = [
     path('admin/', admin.site.urls),
