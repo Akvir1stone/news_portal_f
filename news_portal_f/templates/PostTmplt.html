@@ -1,9 +1,9 @@
 {% extends 'flatpages/default.html' %}
 
 {% block title %}
-    {{ post.name }}
+    {{ post.name }} | {{ post.author.user }}
 {% endblock title %}
 
 {% block content %}
-    <h1>{{ post }}</h1>
+    <h1>{{ post.detail }}</h1>
 {% endblock content %}

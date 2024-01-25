@@ -57,6 +57,9 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.name}: {self.text[:20]}...'
 
+    def detail(self):
+        return f'{self.name}, {self.text}, {self.rating}, {self.author}, {self.date_time}'
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
