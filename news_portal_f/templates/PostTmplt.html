@@ -1,5 +1,7 @@
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filter %}
+
 {% block title %}
     {{ post.name }} | {{ post.author.user }}
 {% endblock title %}
@@ -25,5 +27,5 @@
         </tr>
     </table>
         </center>
-    {{ post.text }}
+    {{ post.text|text }}
 {% endblock content %}
