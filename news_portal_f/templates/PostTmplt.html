@@ -5,5 +5,25 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>{{ post.detail }}</h1>
+    <center>
+    <table>
+        <tr>
+            <td>
+                <h1>{{ post.name }}</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>Автор: {{ post.author }}</h2>
+            </td>
+            <td>
+                <h2>Рейтинг: {{ post.rating }}</h2>
+            </td>
+            <td>
+                <h2>Дата: {{ post.date_time|date:'M d Y' }}</h2>
+            </td>
+        </tr>
+    </table>
+        </center>
+    {{ post.text }}
 {% endblock content %}
