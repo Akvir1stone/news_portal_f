@@ -57,6 +57,12 @@ class Post(models.Model):
         else:
             return self.text[:20] + '...'
 
+    def self_name(self):
+        if not self.name:
+            return 'No name'
+        else:
+            return self.name
+
     def __str__(self):
         return f'{self.name}: {self.text[:20]}...'
 
