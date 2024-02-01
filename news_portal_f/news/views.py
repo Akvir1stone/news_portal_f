@@ -30,6 +30,12 @@ class NewsSearch(ListView):
     context_object_name = 'news'
     paginate_by = 2
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = NewsFilter(self.request.GET, queryset=self.get_queryset())
+        context['form'] = NewsForm()
+        return context
+
 
 class PostView(DetailView):
     template_name = 'PostTmplt.html'
