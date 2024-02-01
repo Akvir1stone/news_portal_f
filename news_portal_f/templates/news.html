@@ -28,9 +28,19 @@
            </tr> <!-- Не забываем закрыть HTML-тег строки -->
            {% for post in news %}
            <tr>
-               <td>{{ post.self_name }}</td>
-               <td>{{ post.date_time|date:'d m Y' }}</td>
-               <td>{{ post.preview }}</td>
+               <td>
+                   <a href="{% url 'post_update' post.id %}"><u>edit</u></a>
+                   <a href="{% url 'post_delete' post.id %}"><u> del </u></a>
+               </td>
+               <td>
+                   <a href="{% url 'post_detail' post.id %}">{{ post.self_name }}</a>
+               </td>
+               <td>
+                   {{ post.date_time|date:'d m Y' }}
+               </td>
+               <td>
+                   {{ post.preview }}
+               </td>
            </tr>
            {% endfor %}
        </table> <!-- ... и таблицы -->

@@ -41,7 +41,7 @@ class Post(models.Model):
     m_to_m_cat = models.ManyToManyField(Category, through="PostCategory")
     name = models.CharField(max_length=255)
     text = models.TextField()
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
 
     def like(self):
         self.rating += 1
@@ -68,6 +68,9 @@ class Post(models.Model):
 
     def detail(self):
         return f'{self.name}, {self.text}, {self.rating}, {self.author}, {self.date_time}'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):
