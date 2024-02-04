@@ -26,6 +26,9 @@
        <div class="collapse navbar-collapse" id="navbarResponsive">
            <ul class="navbar-nav ml-auto">
                <li class="nav-item">
+                   <a class="nav-link" href="/admin/">Админ (временно для удобства)</a>
+               </li>
+               <li class="nav-item">
                    <a class="nav-link" href="/news/">На главную</a>
                </li>
                 <li class="nav-item">
@@ -41,11 +44,11 @@
         <!-- Page content-->
        <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+
                     {% block content %}
                     {{ flatpage.content }}
                     {% endblock content %}
-                </div>
+
             </div>
        </div>
     </body>

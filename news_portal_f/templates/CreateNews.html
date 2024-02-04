@@ -6,15 +6,21 @@
 
 {% block content %}
 
+    <h1>Создать пост</h1>
+
+    <hr>
+<div class="col-lg-12 text-center">
 <form method="POST">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Создать статью">
 </form>
+</div>
 
+<div class="col-lg-12 text-center">
 <form action="/news">
     <button>На главную</button>
 </form>
-
+</div>
 
 {% endblock content %}

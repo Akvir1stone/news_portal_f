@@ -7,8 +7,8 @@
 {% endblock title %}
 
 {% block content %}
-    <center>
-    <table>
+    <div class="col-lg-12 text-center">
+    <table class="col-lg-12 text-center">
         <tr>
             <td>
                 <h1>{{ post.name }}</h1>
@@ -16,17 +16,18 @@
         </tr>
         <tr>
             <td>
-                <h2>Автор: {{ post.author.user }}</h2>
+                <h5>Автор: {{ post.author.user }}</h5>
             </td>
             <td>
-                <h2>Рейтинг: {{ post.rating }}</h2>
+                <h5>Рейтинг: {{ post.rating }}</h5>
             </td>
             <td>
-                <h2>Дата: {{ post.date_time|date:'M d Y' }}</h2>
+                <h5>Дата: {{ post.date_time|date:'M d Y' }}</h5>
             </td>
         </tr>
     </table>
-        </center>
+    </div>
+    <hr>
     {{ post.text|text }}
 
 <form action="/news">

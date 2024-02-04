@@ -5,11 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-
     <h1>Удалить статью?</h1>
     <hr>
-        <center>
-       <table>
+       <div class="col-lg-12 text-center">
+       <table class="col-lg-12 text-center">
            <thead>
            <tr>
                <td>
@@ -35,7 +34,7 @@
                </td>
            </tr>
        </table> <!-- ... и таблицы -->
-        </center>
+        </div>
 
 <form method="POST">
     {% csrf_token %}

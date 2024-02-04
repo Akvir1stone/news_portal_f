@@ -1,21 +1,25 @@
 {% extends 'flatpages/default.html' %}
-
+<div class="col-lg-12 text-center">
 {% block title %}
 {{ flatpage.title }}
 {% endblock title %}
+</div>
+
 
 {% block content %}
-
-<form action="search">
+    <div class="col-lg-12 text-start">
+    <h1>Новости</h1>
+        <form action="search">
     <button>Поиск</button>
 </form>
-
-    <h1>Новости</h1>
     <hr>
     {% if news %}
-        <center>
-       <table> <!-- Начинаем описывать таблицу -->
+       <div class="col-lg-12 text-center">
+       <table class="col-lg-12 text-center"> <!-- Начинаем описывать таблицу -->
            <tr> <!-- Добавляем строку -->
+               <td> <!-- Добавляем ячейку в строку -->
+                   Действия
+               </td>
                <td> <!-- Добавляем ячейку в строку -->
                    Заголовок
                </td>
@@ -44,11 +48,13 @@
            </tr>
            {% endfor %}
        </table> <!-- ... и таблицы -->
-        </center>
+       </div>
     {% else %}
         <h2>Нет новостей</h2>
     {% endif %}
+    </div>
 
+    <div class="col-lg-12 text-center">
 {% if is_paginated %}
 
     {% if page_obj.has_previous %}
@@ -69,5 +75,6 @@
     {% endif %}
 
 {% endif %}
+    </div>
 
 {% endblock content %}

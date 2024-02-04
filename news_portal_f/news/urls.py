@@ -1,5 +1,5 @@
-from django.urls import path
-from .views import NewsList, PostView, NewsSearch, CreateNews, PostEdit, PostDelete
+from django.urls import path, include
+from .views import NewsList, PostView, NewsSearch, CreateNews, PostEdit, PostDelete, Login
 
 
 urlpatterns = [

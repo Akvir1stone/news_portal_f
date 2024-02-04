@@ -6,16 +6,16 @@
 
 {% block content %}
 
-<form method="GET">
+    <h1>Поиск новостей</h1>
+    <form method="GET">
     {{ filter.form }}
     <input type="submit" value="Поиск">
-</form>
+    </form>
 
-    <h1>Новости</h1>
     <hr>
     {% if news %}
-        <center>
-       <table> <!-- Начинаем описывать таблицу -->
+       <div class="col-lg-12 text-center">
+       <table class="col-lg-12 text-center"> <!-- Начинаем описывать таблицу -->
            <tr> <!-- Добавляем строку -->
                <td> <!-- Добавляем ячейку в строку -->
                    Заголовок
@@ -45,14 +45,14 @@
            </tr>
            {% endfor %}
        </table> <!-- ... и таблицы -->
-        </center>
+       </div>
     {% else %}
         <h2>Нет новостей</h2>
     {% endif %}
-
+<div class="col-lg-12 text-center">
 <form action="/news">
     <button>На главную</button>
 </form>
-
+</div>
 
 {% endblock content %}

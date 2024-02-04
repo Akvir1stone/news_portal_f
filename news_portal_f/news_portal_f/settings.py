@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'news',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'news_portal_f.urls'
@@ -131,3 +136,31 @@ STATICFILES_DIRS = [
 ]
 
 SITE_ID = 1
+
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_REDIRECT_URL = '/news'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         'APP': {
+#             'client_id': '149638604752-ts6aahok2m54r52b8clelkaj05kujott.apps.googleusercontent.com',
+#             'secret': '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',
+#             'key': ''
+#         }
+#     }
+# }
