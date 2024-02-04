@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from news.views import UserPage
 # from news import models
 
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path('news/', include('news.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('allauth.urls')),
+    path('user/', UserPage.as_view(), name='userpage')
 ]

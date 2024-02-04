@@ -1,8 +1,12 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Authors, Category, Post, PostCategory, Comment
 from .filters import NewsFilter
 from .forms import NewsForm
+from .models import BaseRegisterForm
+from django.contrib.auth.models import User, Group
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 
 class NewsList(ListView):
@@ -19,7 +23,8 @@ class NewsList(ListView):
         return context
 
 
-class CreateNews(CreateView):
+class CreateNews(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_Post', 'news.change_Post')
     template_name = 'CreateNews.html'
     form_class = NewsForm
 
@@ -43,7 +48,8 @@ class PostView(DetailView):
     queryset = Post.objects.all()
 
 
-class PostEdit(LoginRequiredMixin, UpdateView):
+class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    permission_required = ('news.add_Post', 'news.change_Post')
     template_name = 'CreateNews.html'
     form_class = NewsForm
 
@@ -62,3 +68,26 @@ class Login(TemplateView):
     template_name = 'Login.html'
     success_url = '/news'
 
+
+class UserPage(LoginRequiredMixin, TemplateView):
+    template_name = 'UserPage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
+
+
+class BaseRegisterView(CreateView):
+    model = User
+    form_class = BaseRegisterForm
+    success_url = '/news'
+
+
+@login_required
+def upgrade_me(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+    return redirect('/news')

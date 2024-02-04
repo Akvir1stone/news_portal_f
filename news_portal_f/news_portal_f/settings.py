@@ -140,6 +140,7 @@ SITE_ID = 1
 LOGIN_URL = '/accounts/login/'
 
 LOGIN_REDIRECT_URL = '/news'
+LOGOUT_REDIRECT_URL = '/news'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -151,16 +152,4 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         # For each OAuth based provider, either add a ``SocialApp``
-#         # (``socialaccount`` app) containing the required client
-#         # credentials, or list them here:
-#         'APP': {
-#             'client_id': '149638604752-ts6aahok2m54r52b8clelkaj05kujott.apps.googleusercontent.com',
-#             'secret': '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',
-#             'key': ''
-#         }
-#     }
-# }
+ACCOUNT_FORMS = {'signup': 'news.models.BasicSignupForm'}

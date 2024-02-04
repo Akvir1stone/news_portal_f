@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+
+{% block content %}
+
+    <h1>Страница пользователя</h1>
+
+    <hr>
+
+
+    <div class="col-lg-12 text-start">
+        {% if is_not_author %}
+<button> <a href="/news/upgrade/">Я автор</a> </button>
+{% endif %}
+    <button> <a href="/accounts/logout/">Выйти</a> </button>
+    </div>
+
+
+{% endblock content %}
