@@ -1,12 +1,13 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .models import Authors, Category, Post, PostCategory, Comment
+from .models import Authors, Category, Post, PostCategory, Comment, UserCat
 from .filters import NewsFilter
 from .forms import NewsForm
 from .models import BaseRegisterForm
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 
 class NewsList(ListView):
@@ -27,6 +28,16 @@ class CreateNews(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_Post', 'news.change_Post')
     template_name = 'CreateNews.html'
     form_class = NewsForm
+
+    def post(self, request, *args, **kwargs):
+        sub = UserCat(
+            user=self.User,
+            cat=request.POST['m_to_m_cat'],
+        )
+        send_mail(
+            f'{self.form_class["name"]}',
+
+        )
 
 
 class NewsSearch(ListView):
