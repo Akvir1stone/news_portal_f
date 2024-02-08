@@ -1,11 +1,11 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .models import Authors, Category, Post, PostCategory, Comment, UserCat
+from .models import Authors, Category, Post, PostCategory, Comment
 from .filters import NewsFilter
 from .forms import NewsForm
 from .models import BaseRegisterForm
 from django.contrib.auth.models import User, Group
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
@@ -28,16 +28,6 @@ class CreateNews(PermissionRequiredMixin, CreateView):
     permission_required = ('news.add_Post', 'news.change_Post')
     template_name = 'CreateNews.html'
     form_class = NewsForm
-
-    def post(self, request, *args, **kwargs):
-        sub = UserCat(
-            user=self.User,
-            cat=request.POST['m_to_m_cat'],
-        )
-        send_mail(
-            f'{self.form_class["name"]}',
-
-        )
 
 
 class NewsSearch(ListView):
@@ -102,3 +92,20 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
     return redirect('/news')
+
+
+class CatList(ListView):
+    model = Post
+    template_name = 'CatList.html'
+    context_object_name = 'catlist'
+
+    def get_queryset(self):
+        self.cats = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(m_to_m_cat=self.cats).order_by('-date')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['not_sub'] = self.request.user not in self.cats.subs.all()
+        context['cat'] = self.cats
+

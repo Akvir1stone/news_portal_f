@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import NewsList, PostView, NewsSearch, CreateNews, PostEdit, PostDelete, BaseRegisterView, upgrade_me
+from .views import NewsList, PostView, NewsSearch, CreateNews, PostEdit, PostDelete, BaseRegisterView, upgrade_me, CatList
 from django.contrib.auth.views import LoginView, LogoutView
 
 
@@ -13,5 +13,6 @@ urlpatterns = [
    path('login/', LoginView.as_view(template_name='auth_templates/login.html'), name='login_temp'),
    path('logout/', LogoutView.as_view(template_name='auth_templates/logout.html'), name='logout_temp'),
    path('signup/', BaseRegisterView.as_view(template_name='auth_templates/signup.html'), name='signup_temp'),
-   path('upgrade/', upgrade_me, name='upgrade')
+   path('upgrade/', upgrade_me, name='upgrade'),
+   path('cats/<int:pk>', CatList.as_view(), name='catlist'),
 ]

@@ -34,12 +34,7 @@ class Authors(models.Model):
 
 class Category(models.Model):
     CatName = models.CharField(max_length=50, unique=True)
-    subs = models.ManyToManyField(User, on_delete=models.CASCADE)
-
-
-class UserCat(models.Model):
-    user = models.ForeignKey(User)
-    cat = models.ForeignKey(Category)
+    subs = models.ManyToManyField(User, related_name='cats')
 
 
 class Post(models.Model):
