@@ -36,6 +36,9 @@ class Category(models.Model):
     CatName = models.CharField(max_length=50, unique=True)
     subs = models.ManyToManyField(User, related_name='cats')
 
+    def __str__(self):
+        return self.CatName
+
 
 class Post(models.Model):
     author = models.ForeignKey(Authors, on_delete=models.CASCADE)

@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+<div class="col-lg-12 text-center">
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+</div>
+
+{% block content %}
+<h1 class="col-lg-12 text-start">{{ mes }} {{ cat }}</h1>
+<hr>
+<p class="col-lg-12 text-start"><a href="{% url 'main' %}" class="btn btn-outline-secondary btn-sn">Вернуться на главную</a></p>
+{% endblock content %}

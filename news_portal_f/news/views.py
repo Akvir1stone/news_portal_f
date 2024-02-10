@@ -5,7 +5,7 @@ from .filters import NewsFilter
 from .forms import NewsForm
 from .models import BaseRegisterForm
 from django.contrib.auth.models import User, Group
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
@@ -41,6 +41,7 @@ class NewsSearch(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = NewsFilter(self.request.GET, queryset=self.get_queryset())
         context['form'] = NewsForm()
+        context['catsn'] = self.cats
         return context
 
 
@@ -97,15 +98,25 @@ def upgrade_me(request):
 class CatList(ListView):
     model = Post
     template_name = 'CatList.html'
-    context_object_name = 'catlist'
+    context_object_name = 'catlists'
 
     def get_queryset(self):
         self.cats = get_object_or_404(Category, id=self.kwargs['pk'])
-        queryset = Post.objects.filter(m_to_m_cat=self.cats).order_by('-date')
+        queryset = Post.objects.filter(m_to_m_cat=self.cats).order_by('-date_time')
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['not_sub'] = self.request.user not in self.cats.subs.all()
         context['cat'] = self.cats
+        return context
+
+
+@login_required
+def sub(request, pk):
+    user = request.user
+    cat = Category.objects.get(id=pk)
+    cat.subs.add(user)
+    mes = 'Подписан'
+    return render(request, 'subbed.html', {'cat': cat, 'mes': mes})
 
