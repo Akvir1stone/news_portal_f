@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from allauth.account.forms import SignupForm
 from django import forms
+from django.template.loader import render_to_string
 from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
+from news_portal_f.settings import SITE_URL, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 # Create your models here.
 
 
@@ -61,7 +64,7 @@ class Post(models.Model):
         if not self.text:
             return 'No text'
         else:
-            return self.text[:20] + '...'
+            return self.text[:50] + '...'
 
     def self_name(self):
         if not self.name:
@@ -104,8 +107,17 @@ class BasicSignupForm(SignupForm):
 
     def save(self, request):
         user = super(BasicSignupForm, self).save(request)
+        usere = user.email
         common_group = Group.objects.get(name='common')
         common_group.user_set.add(user)
+
+        send_mail(
+            subject='Добро',
+            message=f'{SITE_URL}/news/',
+            from_email=f'{EMAIL_HOST_USER}@yandex.ru',
+            recipient_list=[usere],
+        )
+
         return user
 
 

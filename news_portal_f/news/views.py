@@ -1,9 +1,8 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from .models import Authors, Category, Post, PostCategory, Comment
+from .models import Authors, Category, Post, PostCategory, Comment, BaseRegisterForm
 from .filters import NewsFilter
 from .forms import NewsForm
-from .models import BaseRegisterForm
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
