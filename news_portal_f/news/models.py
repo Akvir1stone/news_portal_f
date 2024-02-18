@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
 from news_portal_f.settings import SITE_URL, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+
 # Create your models here.
 
 

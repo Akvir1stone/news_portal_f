@@ -50,7 +50,6 @@ class Command(BaseCommand):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
-
         scheduler.add_job(
             my_job,
             trigger=CronTrigger(day_of_week="mon", hour="00", minute="00"),

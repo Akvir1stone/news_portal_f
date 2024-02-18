@@ -6,7 +6,8 @@ from .forms import NewsForm
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from .tasks import send_note_task
+import datetime
 
 
 class NewsList(ListView):
@@ -24,9 +25,18 @@ class NewsList(ListView):
 
 
 class CreateNews(PermissionRequiredMixin, CreateView):
+    model = Post
     permission_required = ('news.add_Post', 'news.change_Post')
     template_name = 'CreateNews.html'
     form_class = NewsForm
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        form.instance.user = self.request.user
+
+        post.save()
+        send_note_task.delay(form.instance.pk)
+        return super().form_valid(form)
 
 
 class NewsSearch(ListView):
