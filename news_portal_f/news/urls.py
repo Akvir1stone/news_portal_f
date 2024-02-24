@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import NewsList, PostView, NewsSearch, CreateNews, PostEdit, PostDelete, BaseRegisterView, upgrade_me, CatList, sub
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.decorators.cache import cache_page
 
 
 urlpatterns = [

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from .tasks import send_note_task
-import datetime
+from django.core.cache import cache
 
 
 class NewsList(ListView):
@@ -54,9 +54,17 @@ class NewsSearch(ListView):
         return context
 
 
+# @cache_page(60*5)
 class PostView(DetailView):
     template_name = 'PostTmplt.html'
     queryset = Post.objects.all()
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'product-{self.kwargs["pk"]}', None)
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'product-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):

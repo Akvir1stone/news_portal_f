@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import send_mail
 from news_portal_f.settings import SITE_URL, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+from django.core.cache import cache
 
 # Create your models here.
 
@@ -81,6 +82,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return f'/news/{self.id}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete(f'product-{self.pk}')
 
 
 class PostCategory(models.Model):
