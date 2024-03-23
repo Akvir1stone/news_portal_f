@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+# import logging
 from pathlib import Path
 from news.utils.utils import email_host_name, email_host_pass
 
@@ -176,5 +177,116 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+    }
+}
+
+# logger = logging.getLogger('news_portal_f')
+# logger.debug()
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style' : '{',
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'mid': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+        'comp': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'general': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+        'error': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+        'security': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+        'mail': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'consolesimp': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'consolemid': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'mid'
+        },
+        'consolecomp': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'comp'
+        },
+        'generalfile': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'general'
+        },
+        'errorsfile': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'error'
+        },
+        'securityfile': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'security'
+        },
+        'mail': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'mail'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['consolesimp', 'consolemid', 'consolecomp', 'generalfile'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['errorsfile', 'mail'],
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['errorsfile', 'mail'],
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['errorsfile'],
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['errorsfile'],
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['securityfile'],
+            'propagate': True,
+        },
     }
 }
