@@ -6,6 +6,7 @@ from .forms import NewsForm
 from django.contrib.auth.models import User, Group
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 from .tasks import send_note_task
 from django.core.cache import cache
 
@@ -134,6 +135,6 @@ def sub(request, pk):
     user = request.user
     cat = Category.objects.get(id=pk)
     cat.subs.add(user)
-    mes = 'Подписан'
+    mes = _('Подписан')
     return render(request, 'subbed.html', {'cat': cat, 'mes': mes})
 

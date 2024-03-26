@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{% load i18n %}
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -30,24 +33,41 @@
                    <a class="nav-link" href="/admin/">Админ (временно для удобства)</a>
                </li>
                <li class="nav-item">
-                   <a class="nav-link" href="/news/">На главную</a>
+                   <a class="nav-link" href="/news/">{% trans "На главную" noop %}</a>
                </li>
                 <li class="nav-item">
-                   <a class="nav-link" href="/news/search">Поиск</a>
+                   <a class="nav-link" href="/news/search">{% trans "Поиск" noop %}</a>
                </li>
                <li class="nav-item">
-                   <a class="nav-link" href="/news/add">Создать пост</a>
+                   <a class="nav-link" href="/news/add">{% trans "Создать пост" noop %}</a>
                </li>
                <li class="nav-item">
-                   <a class="nav-link" href="/user/">Страница пользователя</a>
+                   <a class="nav-link" href="/user/">{% trans "Страница пользователя" noop %}</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/user/"><form action="{% url 'set_language' %}" method="POST"> {% csrf_token %}
+                   <input type="hidden" name="next" value="{{ redirect_to }}">
+                   <select name="language" id="">
+                       {% get_available_languages as LANGUAGES %}
+                       {% get_language_info_list for LANGUAGES as languages %}
+
+                       {% for language in languages %}
+                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                            {{ language.name_local }} - {{ language.code }}
+                        </option>
+                       {% endfor %}
+                   </select>
+                       <input type="submit" value="set">
+                   </form>
+                   </a>
                </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                   <a class="nav-link" href="/accounts/logout">Выйти</a>
+                   <a class="nav-link" href="/accounts/logout">{% trans "Выйти" noop %}</a>
                </li>
                 {% else %}
                 <li class="nav-item">
-                   <a class="nav-link" href="/accounts/login">Войти</a>
+                   <a class="nav-link" href="/accounts/login">{% trans "Войти" noop %}</a>
                </li>
                 {% endif %}
 
